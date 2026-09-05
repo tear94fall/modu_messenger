@@ -1,0 +1,18 @@
+// 앱 설정. 안드로이드의 build.gradle buildConfigField 에 해당한다.
+// xcconfig 에서 "//" 는 주석이라 $() 로 끊어서 적는다.
+
+// 게이트웨이 주소 (개발용 LAN IP). 실기기에서는 Mac 과 같은 Wi-Fi 에 있어야 한다.
+API_BASE_URL = http:$()/$()/192.168.0.3:8000/
+WS_BASE_URL = ws:$()/$()/192.168.0.3:8000/
+
+// Google Cloud 콘솔에서 만든 iOS 용 OAuth 클라이언트 ID (번들 ID: com.example.modumessenger).
+// 실제 값은 깃에 올리지 않는 Config/Secrets.xcconfig 에 적는다 (맨 아래 #include? 가 덮어쓴다).
+// REVERSED 는 클라이언트 ID 를 점(.) 기준으로 뒤집은 값이다.
+GOOGLE_IOS_CLIENT_ID = REPLACE_ME.apps.googleusercontent.com
+GOOGLE_IOS_REVERSED_CLIENT_ID = com.googleusercontent.apps.REPLACE_ME
+
+// 백엔드(member-service)가 ID 토큰의 audience 로 검사하는 웹 클라이언트 ID. 안드로이드와 같다.
+GOOGLE_SERVER_CLIENT_ID = 529862674339-34f6a7he3npv9kkufh8u8ie6mma3f92j.apps.googleusercontent.com
+
+// 로컬 비밀값. 파일이 없으면 위 자리표시자가 그대로 쓰인다.
+#include? "Secrets.xcconfig"

@@ -1,0 +1,13 @@
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcworkspace/xcshareddata/swiftpm/
+.swiftpm/
+*.ipa
+*.dSYM.zip
+
+# 로컬 비밀값 (Google OAuth 클라이언트 ID 등)
+**/Config/Secrets.xcconfig
+GoogleService-Info.plist
