@@ -164,6 +164,25 @@ MSA 구조에서는 다양한 서비스들이 존재하게 됩니다. 이들은 
 spring bus 는 설정 정보 변경시 rabbit mq를 통해 변경된 설정 정보를 전달합니다.  
 변경 정보를 전달 하기 위해서 config-server에 busrefresh 요청을 전송하고, 변경된 내용은 각 서비스에 전달되고 반영됩니다.  
 
+### Redis Cluster
+Redis 는 단일 노드가 아니라 마스터 3 + 레플리카 3 의 Redis Cluster 로 띄운다(`redis-node-1`~`redis-node-6`, 모두 6379 포트).  
+슬롯 배정은 `redis-cluster-init` 컨테이너가 최초 한 번만 수행하고, 이후 기동에서는 `cluster_state:ok` 가 될 때까지 기다렸다가 서비스가 뜨게 한다.  
+
+클러스터 클라이언트는 처음 준 주소로 토폴로지만 읽고, 그 뒤로는 **노드가 광고한 주소**로 노드마다 직접 붙는다. 그래서 광고 주소가 어디서 통하느냐가 전부다.  
+- 노드끼리는 `nodes.conf` 에 저장된 IP 로 통신하므로, 컨테이너 재생성으로 IP 가 바뀌면 서로를 잃는다. 이를 막기 위해 전용 `redis-cluster` 네트워크(10.90.0.0/24)의 고정 IP(10.90.0.11~16)를 `cluster-announce-ip` 로 광고한다.  
+- 클라이언트에게는 `cluster-announce-hostname` 으로 컨테이너 이름을 함께 광고한다. Lettuce(auth-service) 는 이 호스트명을 따라가고, Redisson 3.18(member-service) 은 IP 를 따라가므로 두 서비스는 `redis-cluster` 네트워크에도 참여한다.  
+
+이 주소들은 도커 네트워크 안에서만 통하므로 클러스터는 컨테이너 전용이다.  
+서비스를 도커 밖 IDE 에서 `local` 프로필로 띄울 때는 단일 노드 `redis-local` 을 쓴다.  
+로컬은 단일 노드, 배포 환경은 클러스터로 두고 설정값만 바꾸는 일반적인 패턴이며, 두 서비스 코드는 `spring.data.redis.cluster.nodes` 유무로 자동 분기한다.  
+
+```
+docker compose --profile local up -d redis-local
+```
+
+단일 노드에서는 CROSSSLOT 같은 클러스터 제약이 드러나지 않으므로, 여러 키를 한 명령으로 다루는 코드는 도커 스택에서 확인한다.  
+클러스터를 직접 들여다볼 때는 컨테이너 안에서 `docker exec -it redis-node-1 redis-cli -c` 를 쓴다.  
+
 ### 도커를 이용한 컨테이너 기반 운영환경
 MSA 구조에서 서비스는 단일로 구동이 되기도 하지만, 트래픽의 부하 분산을 위해서 다수의 서비스를 운영하기도 합니다.  
 모두의 메신저는 트래픽의 부하에대해 서비스를 안정적으로 제공 하기 위해서 서비스를 다수로 구동하는것이 가능합니다.  

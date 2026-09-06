@@ -50,7 +50,19 @@ spring:
       bootstrap-servers: kafka:9092
   data:
     redis:
-      host: redis
+      cluster:
+        nodes:
+          - redis-node-1:6379
+          - redis-node-2:6379
+          - redis-node-3:6379
+          - redis-node-4:6379
+          - redis-node-5:6379
+          - redis-node-6:6379
+      lettuce:
+        cluster:
+          refresh:
+            adaptive: true
+            period: 30s
   rabbitmq:
     host: rabbitmq
     username: '{cipher}fca9392645c442339c1e59f85f7ba40b9ead2aead8892da8e67e87ef7a0be65d'
