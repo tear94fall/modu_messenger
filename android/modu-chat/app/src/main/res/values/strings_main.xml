@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 하단 탭(부록 A §4) -->
+    <string name="tab_friends">친구</string>
+    <string name="tab_chat">채팅</string>
+    <string name="tab_setting">설정</string>
+
+    <!-- 뱃지: 999 를 넘으면 더 세지 않는다 -->
+    <string name="badge_overflow">999+</string>
+
+    <!-- 앱 안 배너(부록 A §0.7) -->
+    <string name="banner_text">%1$s : %2$s</string>
+    <string name="banner_action">이동</string>
+    <string name="preview_image">사진</string>
+    <string name="preview_file">파일</string>
+    <string name="preview_audio">음성</string>
+
+    <!-- 알림 권한 근거 다이얼로그(부록 A §4) -->
+    <string name="notification_permission_rationale_title">알림 권한이 필요합니다</string>
+    <string name="notification_permission_rationale_message">새 메시지 알림을 받으려면 알림 권한이 필요합니다. 권한을 허용해 주세요.</string>
+    <string name="notification_permission_rationale_confirm">확인</string>
+    <string name="notification_permission_rationale_cancel">취소</string>
+
+    <!-- 푸시를 받아 알림을 띄울 때 같이 뜨는 토스트(기존 앱과 같다) -->
+    <string name="push_new_message">새로운 메시지가 도착하였습니다.</string>
+
+    <!-- 푸시 토큰 등록 실패(부록 C §2.3) -->
+    <string name="push_token_unstable">메시지 알림 서버와의 연결이 불안정합니다.</string>
+</resources>

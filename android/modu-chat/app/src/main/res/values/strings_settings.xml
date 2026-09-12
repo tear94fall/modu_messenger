@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 설정 탭(부록 A §7) -->
+    <string name="setting_name_placeholder">사용자 이름</string>
+    <string name="setting_email_placeholder">사용자 이메일 주소</string>
+    <string name="setting_grid_app_info">버전정보</string>
+    <string name="setting_grid_notice">공지사항</string>
+    <string name="setting_grid_backup">백업</string>
+    <string name="setting_grid_setup">설정</string>
+    <string name="setting_grid_theme">테마</string>
+    <string name="setting_grid_favorite">즐겨찾기</string>
+    <string name="setting_grid_hidden">숨긴친구</string>
+    <string name="setting_grid_blocked">차단친구</string>
+
+    <!-- 설정(부록 A §21) -->
+    <string name="setup_title">설정</string>
+    <string name="setup_account">계정설정</string>
+    <string name="setup_app_version">버전정보</string>
+    <string name="setup_notice">공지사항</string>
+    <string name="setup_friends">친구설정</string>
+
+    <!-- 계정 설정(부록 A §22) -->
+    <string name="account_title">계정 설정</string>
+    <string name="account_logout">로그아웃</string>
+    <string name="account_logout_message">로그아웃 하시겠습니까?</string>
+    <string name="account_cancel">취소</string>
+
+    <!-- 공지사항(부록 A §23) -->
+    <string name="notice_title">공지사항</string>
+    <string name="notice_load_failed">연결이 원활하지 않습니다.</string>
+
+    <!-- 버전 정보(부록 A §24) -->
+    <string name="app_info_title">버전 정보</string>
+    <string name="app_info_server_version">서버 버전 : %1$s</string>
+    <string name="app_info_app_version">앱 버전 : %1$s</string>
+    <string name="app_info_os_version">os 버전 : 안드로이드 %1$s</string>
+
+    <!-- SSO 동의 팝업(부록 A §3) -->
+    <string name="sso_dialog_title">모두 계정으로 로그인</string>
+    <string name="sso_dialog_message">모두의 커머스가 내 모두 계정으로 로그인하려 합니다. 허용할까요?</string>
+    <string name="sso_deny">거부</string>
+    <string name="sso_allow">허용</string>
+</resources>

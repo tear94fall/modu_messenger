@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 보내기 버튼 배경. ChatActivity 는 AppCompat 테마라 MaterialButton 을 못 쓰므로
+     ImageButton 에 이 배경을 깔아 같은 모양을 낸다. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#33FFFFFF">
+    <item android:id="@android:id/mask">
+        <shape android:shape="oval">
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/brand_violet" />
+        </shape>
+    </item>
+</ripple>

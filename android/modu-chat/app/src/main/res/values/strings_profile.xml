@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 프로필 보기(부록 A §13) -->
+    <string name="profile_name_placeholder">이름</string>
+    <string name="profile_status_placeholder">상태 메세지</string>
+    <string name="profile_edit_button">프로필 편집</string>
+    <string name="profile_start_chat_self">나와 채팅 하기</string>
+    <string name="profile_start_chat_friend">친구와 채팅 하기</string>
+    <string name="profile_rename_button">이름 변경</string>
+    <string name="profile_history_button">프로필 사진 기록</string>
+    <string name="profile_close_button">닫기</string>
+    <string name="profile_wallpaper_description">배경 사진</string>
+    <string name="profile_image_description">프로필 사진</string>
+
+    <!-- 친구 이름 변경 다이얼로그 -->
+    <string name="profile_rename_title">친구 이름 변경</string>
+    <string name="profile_rename_cancel">취소</string>
+    <string name="profile_rename_save">저장</string>
+    <string name="profile_rename_success">이름을 바꿨습니다.</string>
+    <string name="profile_rename_failed">이름을 바꾸지 못했습니다. (%1$d)</string>
+
+    <!-- 통신 실패 공통 문구(부록 A §13 onFailure) -->
+    <string name="profile_connect_failed">연결에 실패했습니다.</string>
+
+    <!-- 프로필 편집(부록 A §14) -->
+    <string name="profile_edit_title">프로필 편집</string>
+    <string name="profile_edit_name_hint">이름</string>
+    <string name="profile_edit_status_hint">상태메시지</string>
+    <string name="profile_edit_save">저장</string>
+    <string name="profile_edit_success">프로필 정보가 업데이트 되었습니다.</string>
+    <string name="profile_edit_image_button">프로필 사진 바꾸기</string>
+    <string name="profile_edit_wallpaper_button">배경 사진 바꾸기</string>
+
+    <!-- 프로필 편집 바텀시트(부록 A §14a) -->
+    <string name="profile_edit_sheet_profile">프로필 사진 설정</string>
+    <string name="profile_edit_sheet_wallpaper">배경화면 설정</string>
+    <string name="profile_edit_sheet_album">앨범에서 사진 선택</string>
+    <string name="profile_edit_sheet_default">기본 이미지로 변경</string>
+    <string name="profile_edit_to_gallery">갤러리로 이동합니다</string>
+    <string name="profile_edit_to_default">기본 이미지로 변경합니다</string>
+
+    <!-- 프로필 기록(부록 A §16) -->
+    <string name="profile_history_image_name">%1$s님의 프로필 이미지</string>
+    <string name="profile_history_wallpaper_name">%1$s님의 배경 이미지</string>
+    <string name="profile_history_status_name">%1$s님의 상태 메세지</string>
+    <string name="profile_history_date">%1$s년 %2$s월 %3$s일</string>
+    <string name="profile_history_menu">더 보기</string>
+    <string name="profile_history_set_profile">배경 화면 설정 하기</string>
+    <string name="profile_history_save_profile">저장 하기</string>
+    <string name="profile_history_delete_profile">프로필 삭제 하기</string>
+    <string name="profile_history_delete_done">프로필 삭제 완료</string>
+
+    <!-- 프로필 이미지 보기(부록 A §15) -->
+    <string name="profile_image_title">프로필 이미지</string>
+    <string name="profile_image_close">X</string>
+    <string name="profile_image_download">사진 내려받기</string>
+    <string name="profile_image_delete">사진 삭제</string>
+    <string name="profile_image_saved">사진이 저장 되었습니다.</string>
+    <string name="profile_image_save_failed">사진을 저장할 수 없습니다.</string>
+    <!-- API 28 이하에서 저장 권한이 없을 때(기존 앱과 같은 문구) -->
+    <string name="profile_image_download_cancelled">사진 다운로드를 취소 합니다.</string>
+</resources>

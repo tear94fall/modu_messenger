@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 입력칸 배경. 바 배경(흰색)과 구분되도록 아주 옅게 깔고 모서리를 둥글린다. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/chat_input_fill" />
+    <corners android:radius="22dp" />
+    <stroke
+        android:width="1dp"
+        android:color="@color/chat_input_stroke" />
+</shape>

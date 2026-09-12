@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 로그인 화면(부록 A §2). 문구는 기존 앱 그대로다. -->
+    <string name="login_title">로그인</string>
+    <string name="login_tagline">친구와 가볍게 이야기하세요</string>
+    <string name="login_with_google">Google 계정으로 로그인</string>
+
+    <!-- 기존 앱의 토스트 → 스낵바 -->
+    <string name="login_signing_in">로그인을 시도 합니다.</string>
+    <string name="login_sign_up_start">회원 가입을 시작합니다.</string>
+    <string name="login_success">로그인에 성공 하였습니다. 반갑습니다.</string>
+
+    <!-- 실패 문구 -->
+    <string name="login_no_id_token">구글 ID 토큰을 받지 못했습니다. 다시 시도해 주세요.</string>
+    <string name="login_failed">로그인에 실패했습니다 (코드 %1$d)</string>
+    <string name="login_google_failed">구글 로그인에 실패했습니다 (코드 %1$d)</string>
+    <string name="login_connection_unstable">연결이 원활하지 않습니다.</string>
+    <!-- 토큰은 받았지만 회원 정보를 못 받았다(네트워크). 그래도 메인으로 들어간다. -->
+    <string name="login_offline_mode">오프라인 모드 입니다.</string>
+</resources>
