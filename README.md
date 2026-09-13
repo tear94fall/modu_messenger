@@ -8,6 +8,7 @@
     모두의 메신저 프로젝트의 통합 저장소 입니다.<br>
     개발 내용에 관한 내용은 아래의 문서에서 확인 가능합니다.<br>
     <a href="./android/README.md"><strong>안드로이드 문서</strong></a><br>
+    <a href="./ios/README.md"><strong>iOS 문서</strong></a><br>
     <a href="./backend/README.md"><strong>백엔드 문서</strong></a><br>
   </p>
 </div>
