@@ -28,5 +28,6 @@ describe('Layout', () => {
     expect(screen.getByText('회원')).toBeInTheDocument()
     expect(screen.getByText('채팅방')).toBeInTheDocument()
     expect(screen.getByText('푸시')).toBeInTheDocument()
+    expect(screen.getByText('앱 설정')).toBeInTheDocument()
   })
 })

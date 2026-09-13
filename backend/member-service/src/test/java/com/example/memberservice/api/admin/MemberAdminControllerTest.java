@@ -13,6 +13,7 @@ import com.example.memberservice.api.admin.dto.AdminMemberSummaryDto;
 import com.example.memberservice.member.dto.MemberDto;
 import com.example.memberservice.member.dto.UpdateProfileDto;
 import com.example.memberservice.member.entity.Role;
+import com.example.memberservice.member.repository.MemberSort;
 import com.example.memberservice.member.service.MemberService;
 import org.springframework.http.MediaType;
 import java.time.LocalDateTime;
@@ -47,7 +48,7 @@ class MemberAdminControllerTest {
     @Test
     void search_returnsPage() throws Exception {
         AdminMemberSummaryDto dto = new AdminMemberSummaryDto(1L, "u1", "Alice", "profile.jpg", "a@b.c", Role.ROLE_MEMBER, LocalDateTime.now(), null);
-        when(memberService.searchMembers(eq("a"), any())).thenReturn(new PageImpl<>(List.of(dto)));
+        when(memberService.searchMembers(eq("a"), any(), any())).thenReturn(new PageImpl<>(List.of(dto)));
 
         mockMvc.perform(get("/api-admin/member").param("keyword", "a").header("X-Internal-Token", "test-internal-token"))
                 .andExpect(status().isOk())
@@ -58,15 +59,55 @@ class MemberAdminControllerTest {
                 .andExpect(jsonPath("$.totalElements").value(1));
     }
 
+    /** 정렬을 안 주면 이름 가나다순(한글 먼저)이다. 예전 기본값이던 최신 가입순이 아니다. */
     @Test
-    void list_sortsNewestFirst() throws Exception {
-        when(memberService.searchMembers(eq("a"), any())).thenReturn(new PageImpl<>(List.of()));
-        mockMvc.perform(get("/api-admin/member").param("keyword", "a").header("X-Internal-Token", "test-internal-token")).andExpect(status().isOk());
-        ArgumentCaptor<Pageable> captor = ArgumentCaptor.forClass(Pageable.class);
-        org.mockito.Mockito.verify(memberService).searchMembers(eq("a"), captor.capture());
-        Sort sort = captor.getValue().getSort();
-        assertEquals(Sort.Direction.DESC, sort.getOrderFor("createdDate").getDirection());
-        assertEquals(Sort.Direction.DESC, sort.getOrderFor("id").getDirection());
+    void list_defaultsToNameAsc() throws Exception {
+        when(memberService.searchMembers(eq("a"), any(), any())).thenReturn(new PageImpl<>(List.of()));
+        mockMvc.perform(get("/api-admin/member").param("keyword", "a").header("X-Internal-Token", "test-internal-token"))
+                .andExpect(status().isOk());
+
+        ArgumentCaptor<MemberSort> sortCaptor = ArgumentCaptor.forClass(MemberSort.class);
+        ArgumentCaptor<Pageable> pageableCaptor = ArgumentCaptor.forClass(Pageable.class);
+        verify(memberService).searchMembers(eq("a"), sortCaptor.capture(), pageableCaptor.capture());
+        assertEquals(MemberSort.NAME_ASC, sortCaptor.getValue());
+        // 한글 우선 규칙은 Sort 로 못 담아 QueryDSL 이 만든다. Pageable 에는 정렬을 싣지 않는다.
+        assertEquals(Sort.unsorted(), pageableCaptor.getValue().getSort());
+    }
+
+    @Test
+    void list_acceptsEachAllowedSort() throws Exception {
+        when(memberService.searchMembers(any(), any(), any())).thenReturn(new PageImpl<>(List.of()));
+
+        assertSortParsedAs("name,asc", MemberSort.NAME_ASC);
+        assertSortParsedAs("name,desc", MemberSort.NAME_DESC);
+        assertSortParsedAs("email,asc", MemberSort.EMAIL_ASC);
+        assertSortParsedAs("email,desc", MemberSort.EMAIL_DESC);
+        assertSortParsedAs("userId,asc", MemberSort.USER_ID_ASC);
+        assertSortParsedAs("userId,desc", MemberSort.USER_ID_DESC);
+        assertSortParsedAs("role,asc", MemberSort.ROLE_ASC);
+        assertSortParsedAs("role,desc", MemberSort.ROLE_DESC);
+        assertSortParsedAs("createdDate,desc", MemberSort.CREATED_DESC);
+        assertSortParsedAs("createdDate,asc", MemberSort.CREATED_ASC);
+    }
+
+    private void assertSortParsedAs(String param, MemberSort expected) throws Exception {
+        org.mockito.Mockito.clearInvocations(memberService);
+        mockMvc.perform(get("/api-admin/member").param("sort", param).header("X-Internal-Token", "test-internal-token"))
+                .andExpect(status().isOk());
+        ArgumentCaptor<MemberSort> captor = ArgumentCaptor.forClass(MemberSort.class);
+        verify(memberService).searchMembers(any(), captor.capture(), any());
+        assertEquals(expected, captor.getValue());
+    }
+
+    @Test
+    void list_rejectsUnknownSort() throws Exception {
+        // 목록에 값이 보이지 않는 열은 정렬할 수 없다.
+        mockMvc.perform(get("/api-admin/member").param("sort", "statusMessage,asc").header("X-Internal-Token", "test-internal-token"))
+                .andExpect(status().isBadRequest());
+        mockMvc.perform(get("/api-admin/member").param("sort", "name,sideways").header("X-Internal-Token", "test-internal-token"))
+                .andExpect(status().isBadRequest());
+
+        verify(memberService, never()).searchMembers(any(), any(), any());
     }
 
     @Test

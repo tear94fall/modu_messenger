@@ -32,6 +32,9 @@ export default function Layout() {
           <NavLink to="/push" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
             푸시
           </NavLink>
+          <NavLink to="/settings" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            앱 설정
+          </NavLink>
         </div>
         <div className="sidebar-footer">
           <NavLink to="/me" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>

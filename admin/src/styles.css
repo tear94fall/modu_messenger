@@ -132,6 +132,30 @@ tbody tr {
   cursor: pointer;
 }
 
+/* 정렬 가능한 표 머리글. 버튼이지만 다른 머리글 글씨와 똑같이 보여야 한다. */
+th .sortable-header {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+th .sortable-header:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* 지금 정렬 중인 열에만 붙는다. 오름차순이 ▼, 내림차순이 ▲ — 엑셀과 같은 방향이다. */
+.sort-arrow {
+  margin-left: 4px;
+  font-size: 0.75rem;
+}
+
 tbody tr:hover {
   background: #f0f2f5;
 }
@@ -307,6 +331,21 @@ textarea:focus {
 .search-form input {
   width: auto;
   flex: 1;
+}
+
+/* 목록 위의 검색 줄. 정렬은 표 머리글이 맡는다. */
+.list-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* 검색창은 왼쪽에 두되 화면 끝까지 늘리지 않는다. 표 위에 입력칸만 길게 뻗으면 보기 나쁘다. */
+.list-controls .search-form {
+  flex: 0 1 420px;
+  margin-bottom: 0;
 }
 
 /* 파일 업로드 */
