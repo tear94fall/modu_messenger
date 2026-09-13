@@ -14,8 +14,26 @@ export interface Member {
 }
 export interface Page<T> { content: T[]; totalElements: number; totalPages: number; number: number; size: number }
 export interface MemberDetail { member: Member; friendCount: number; createdDate?: string; friends: Member[] }
-export const searchMembers = (keyword: string, page: number) =>
-  api<Page<Member>>(`/member-service/api-admin/member?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${PAGE_SIZE}`)
+/** 서버(MemberSort)가 받아 주는 값. 목록에 값이 보이는 열은 모두 있다. 그 밖의 값을 보내면 400 이 온다. */
+export const MEMBER_SORTS = [
+  'name,asc',
+  'name,desc',
+  'email,asc',
+  'email,desc',
+  'userId,asc',
+  'userId,desc',
+  'role,asc',
+  'role,desc',
+  'createdDate,desc',
+  'createdDate,asc',
+] as const
+export type MemberSort = (typeof MEMBER_SORTS)[number]
+/** 이름 가나다순(한글 이름 먼저). 서버 기본값과 같게 둔다. */
+export const DEFAULT_MEMBER_SORT: MemberSort = 'name,asc'
+export const searchMembers = (keyword: string, page: number, sort: MemberSort = DEFAULT_MEMBER_SORT) =>
+  api<Page<Member>>(
+    `/member-service/api-admin/member?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${PAGE_SIZE}&sort=${encodeURIComponent(sort)}`,
+  )
 export const getMember = (id: string) => api<MemberDetail>(`/member-service/api-admin/member/${id}`)
 export const getMe = () => api<MemberDetail>('/member-service/api-admin/member/me')
 export const updateMe = (body: { username?: string; statusMessage?: string; profileImage?: string; wallpaperImage?: string }) =>

@@ -9,6 +9,7 @@ import com.example.memberservice.global.lock.LockParam;
 import com.example.memberservice.member.dto.*;
 import com.example.memberservice.member.entity.Member;
 import com.example.memberservice.member.repository.MemberRepository;
+import com.example.memberservice.member.repository.MemberSort;
 import com.example.memberservice.profile.client.ProfileFeignClient;
 import com.example.memberservice.profile.dto.AddProfileDto;
 import com.example.memberservice.profile.dto.ProfileDto;
@@ -234,12 +235,15 @@ public class MemberService implements UserDetailsService {
         return member.getProfiles().get(member.getProfiles().size()-1);
     }
 
-    /** 백오피스 검색. keyword 가 비면 전체. */
-    public Page<AdminMemberSummaryDto> searchMembers(String keyword, Pageable pageable) {
-        Page<Member> page = (keyword == null || keyword.isBlank())
-                ? memberRepository.findAll(pageable)
-                : memberRepository.findByEmailContainingIgnoreCaseOrUsernameContainingIgnoreCase(keyword, keyword, pageable);
-        return page.map(AdminMemberSummaryDto::from);
+    /**
+     * 백오피스 검색. keyword 가 비면 전체.
+     * 정렬은 {@link MemberSort} 로 정한다(기본 이름 가나다순, 한글 이름 먼저). Pageable 의 sort 는 쓰지 않는다 —
+     * "한글 먼저" 는 컬럼 하나로 표현할 수 없어 QueryDSL CASE 로 만들어야 한다.
+     */
+    @Transactional(readOnly = true)
+    public Page<AdminMemberSummaryDto> searchMembers(String keyword, MemberSort sort, Pageable pageable) {
+        return memberRepository.searchForAdmin(keyword, sort == null ? MemberSort.DEFAULT : sort, pageable)
+                .map(AdminMemberSummaryDto::from);
     }
 
     /** 백오피스 상세: 회원 + 친구 수. */

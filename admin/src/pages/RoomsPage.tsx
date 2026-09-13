@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { listRooms, type RoomSummary } from '../api/rooms'
+import { DEFAULT_ROOM_SORT, listRooms, type RoomSort, type RoomSummary } from '../api/rooms'
 import Pager from '../components/Pager'
 import RemoteImage from '../components/RemoteImage'
+import SortableHeader from '../components/SortableHeader'
 
 export default function RoomsPage() {
   const navigate = useNavigate()
   const [page, setPage] = useState(0)
+  const [sort, setSort] = useState<RoomSort>(DEFAULT_ROOM_SORT)
   const [rooms, setRooms] = useState<RoomSummary[]>([])
   const [totalPages, setTotalPages] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  /** 정렬이 바뀌면 지금 보던 페이지 번호는 의미가 없다. 다른 방들이 그 자리에 온다. */
+  const changeSort = (value: string) => {
+    setPage(0)
+    setSort(value as RoomSort)
+  }
+
   useEffect(() => {
     let cancelled = false
     setLoading(true)
     setError(null)
-    listRooms(page)
+    listRooms(page, sort)
       .then((result) => {
         if (cancelled) return
         setRooms(result.content)
@@ -31,12 +39,11 @@ export default function RoomsPage() {
     return () => {
       cancelled = true
     }
-  }, [page])
+  }, [page, sort])
 
   return (
     <div>
       <h1>채팅방 관리</h1>
-
       {loading && <p>불러오는 중...</p>}
       {error && <p className="error-text">{error}</p>}
 
@@ -46,10 +53,34 @@ export default function RoomsPage() {
             <thead>
               <tr>
                 <th aria-label="채팅방 사진" />
-                <th>채팅방 이름</th>
-                <th>멤버 수</th>
-                <th>마지막 메시지</th>
-                <th>마지막 시각</th>
+                <SortableHeader
+                  label="채팅방 이름"
+                  field="roomName"
+                  currentSort={sort}
+                  defaultDir="asc"
+                  onChange={changeSort}
+                />
+                <SortableHeader
+                  label="멤버 수"
+                  field="memberCount"
+                  currentSort={sort}
+                  defaultDir="desc"
+                  onChange={changeSort}
+                />
+                <SortableHeader
+                  label="마지막 메시지"
+                  field="lastChatMsg"
+                  currentSort={sort}
+                  defaultDir="asc"
+                  onChange={changeSort}
+                />
+                <SortableHeader
+                  label="마지막 시각"
+                  field="lastChatTime"
+                  currentSort={sort}
+                  defaultDir="desc"
+                  onChange={changeSort}
+                />
               </tr>
             </thead>
             <tbody>

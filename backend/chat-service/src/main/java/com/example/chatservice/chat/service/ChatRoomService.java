@@ -10,6 +10,7 @@ import com.example.chatservice.chat.entity.ChatRoomMember;
 import com.example.chatservice.chat.repository.ChatRepository;
 import com.example.chatservice.chat.repository.ChatRoomMemberRepository;
 import com.example.chatservice.chat.repository.ChatRoomRepository;
+import com.example.chatservice.chat.repository.ChatRoomSort;
 import com.example.chatservice.common.exception.CustomException;
 import com.example.chatservice.common.exception.ErrorCode;
 import com.example.chatservice.kafka.producer.KafkaProducerService;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -396,9 +398,19 @@ public class ChatRoomService {
         return modelMapper.map(newRoom, ChatRoomDto.class);
     }
 
-    /** 백오피스 방 목록. 멤버 수를 세기 위해 같은 트랜잭션 안에서 컬렉션을 초기화한다. */
+    /**
+     * 백오피스 방 목록. 멤버 수를 세기 위해 같은 트랜잭션 안에서 컬렉션을 초기화한다.
+     * 정렬은 {@link ChatRoomSort} 가 정한다 — 멤버 수만 엔티티 속성이 아니라서 전용 질의로 간다.
+     * pageable 에는 쪽 번호와 크기만 있으면 된다. 정렬은 여기서 붙인다.
+     */
     @Transactional(readOnly = true)
-    public Page<AdminChatRoomSummaryDto> searchChatRoomsForAdmin(Pageable pageable) {
-        return chatRoomRepository.findAll(pageable).map(AdminChatRoomSummaryDto::new);
+    public Page<AdminChatRoomSummaryDto> searchChatRoomsForAdmin(ChatRoomSort sort, Pageable pageable) {
+        PageRequest request = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort.sort());
+        Page<ChatRoom> rooms = switch (sort) {
+            case MEMBER_COUNT_ASC -> chatRoomRepository.findAllOrderByMemberCountAsc(request);
+            case MEMBER_COUNT_DESC -> chatRoomRepository.findAllOrderByMemberCountDesc(request);
+            default -> chatRoomRepository.findAll(request);
+        };
+        return rooms.map(AdminChatRoomSummaryDto::new);
     }
 }

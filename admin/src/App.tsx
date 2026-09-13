@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import RequireAuth from './auth/RequireAuth'
 import Layout from './components/Layout'
+import AppSettingsPage from './pages/AppSettingsPage'
 import LoginPage from './pages/LoginPage'
 import MemberDetailPage from './pages/MemberDetailPage'
 import MembersPage from './pages/MembersPage'
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/rooms" element={<RoomsPage />} />
           <Route path="/rooms/:roomId" element={<RoomDetailPage />} />
           <Route path="/push" element={<PushPage />} />
+          <Route path="/settings" element={<AppSettingsPage />} />
           <Route path="/me" element={<MePage />} />
         </Route>
       </Routes>
