@@ -10,7 +10,11 @@ spring:
     consumer:
       bootstrap-servers: localhost:29092
   data:
+    # IDE 실행은 단일 노드(docker compose --profile local up -d redis-local)에 붙는다.
+    # 클러스터 노드는 도커 네트워크 안에서만 풀리는 호스트명을 광고해 호스트에서 붙을 수 없다.
+    # 클라이언트 코드는 cluster.nodes 유무로 분기하므로 설정만 다르다.
     redis:
       host: localhost
+      port: 6379
   rabbitmq:
     host: localhost

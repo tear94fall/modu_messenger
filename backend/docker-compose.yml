@@ -1,5 +1,28 @@
 version: '3.8'
 
+x-redis-node: &redis-node
+  image: redis:7-alpine
+  # cluster-announce-hostname / cluster-preferred-endpoint-type 은 Redis 7.0+ 에서만 지원된다.
+  # 노드끼리는 nodes.conf 에 저장된 IP 로 통신하므로 컨테이너 재생성으로 IP 가 바뀌면 서로를 잃는다.
+  # 그래서 전용 redis-cluster 네트워크의 고정 IP 를 cluster-announce-ip 로 광고한다.
+  # 클라이언트에게는 호스트명(redis-node-N)도 함께 광고한다(cluster-preferred-endpoint-type hostname).
+  command:
+    - sh
+    - -ec
+    - >
+      exec redis-server --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000 --appendonly yes
+      --cluster-announce-ip "$$REDIS_ANNOUNCE_IP"
+      --cluster-announce-hostname "$$(hostname)" --cluster-preferred-endpoint-type hostname
+  healthcheck:
+    test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+    interval: 5s
+    timeout: 3s
+    retries: 10
+  labels:
+    - "name=redis"
+    - "mode=cluster"
+
 services:
   mysql-member:
     image: mysql
@@ -148,20 +171,149 @@ services:
       - modu-chat-network
       - observability
 
-  redis:
-    image: redis:alpine
+  # Redis Cluster: 마스터 3 + 레플리카 3(redis-node-1~6, 모두 6379), 도커 네트워크 안에서만 쓴다.
+  # 노드 간 통신은 전용 redis-cluster 네트워크의 고정 IP(10.90.0.11~16) 로 한다.
+  # 클러스터 클라이언트는 노드가 광고한 주소로 직접 붙는다. 노드는 고정 IP 와 호스트명(redis-node-N)을
+  # 함께 광고해 Lettuce(auth) 는 compose DNS 로, Redisson(member) 은 고정 IP 로 붙는다.
+  # 이 주소들은 도커 안에서만 통하니 호스트(IDE)에서는 아래 redis-local(단일 노드, local 프로필)을 쓴다.
+  # 슬롯 배정은 redis-cluster-init 이 한 번만 한다.
+  redis-node-1:
+    <<: *redis-node
+    container_name: redis-node-1
+    hostname: redis-node-1
+    environment:
+      - REDIS_ANNOUNCE_IP=10.90.0.11
+    volumes:
+      - redis-node-1:/data
+    networks:
+      modu-chat-network:
+      observability:
+      redis-cluster:
+        ipv4_address: 10.90.0.11
+
+  redis-node-2:
+    <<: *redis-node
+    container_name: redis-node-2
+    hostname: redis-node-2
+    environment:
+      - REDIS_ANNOUNCE_IP=10.90.0.12
+    volumes:
+      - redis-node-2:/data
+    networks:
+      modu-chat-network:
+      observability:
+      redis-cluster:
+        ipv4_address: 10.90.0.12
+
+  redis-node-3:
+    <<: *redis-node
+    container_name: redis-node-3
+    hostname: redis-node-3
+    environment:
+      - REDIS_ANNOUNCE_IP=10.90.0.13
+    volumes:
+      - redis-node-3:/data
+    networks:
+      modu-chat-network:
+      observability:
+      redis-cluster:
+        ipv4_address: 10.90.0.13
+
+  redis-node-4:
+    <<: *redis-node
+    container_name: redis-node-4
+    hostname: redis-node-4
+    environment:
+      - REDIS_ANNOUNCE_IP=10.90.0.14
+    volumes:
+      - redis-node-4:/data
+    networks:
+      modu-chat-network:
+      observability:
+      redis-cluster:
+        ipv4_address: 10.90.0.14
+
+  redis-node-5:
+    <<: *redis-node
+    container_name: redis-node-5
+    hostname: redis-node-5
+    environment:
+      - REDIS_ANNOUNCE_IP=10.90.0.15
+    volumes:
+      - redis-node-5:/data
+    networks:
+      modu-chat-network:
+      observability:
+      redis-cluster:
+        ipv4_address: 10.90.0.15
+
+  redis-node-6:
+    <<: *redis-node
+    container_name: redis-node-6
+    hostname: redis-node-6
+    environment:
+      - REDIS_ANNOUNCE_IP=10.90.0.16
+    volumes:
+      - redis-node-6:/data
+    networks:
+      modu-chat-network:
+      observability:
+      redis-cluster:
+        ipv4_address: 10.90.0.16
+
+  redis-cluster-init:
+    image: redis:7-alpine
+    container_name: redis-cluster-init
+    depends_on:
+      redis-node-1:
+        condition: service_healthy
+      redis-node-2:
+        condition: service_healthy
+      redis-node-3:
+        condition: service_healthy
+      redis-node-4:
+        condition: service_healthy
+      redis-node-5:
+        condition: service_healthy
+      redis-node-6:
+        condition: service_healthy
+    command:
+      - sh
+      - -ec
+      - |
+        # 슬롯이 하나도 배정돼 있지 않을 때만(최초 1회) 클러스터를 만든다.
+        if timeout 3 redis-cli -h 10.90.0.11 cluster info | grep -q '^cluster_slots_assigned:0'; then
+          redis-cli --cluster create 10.90.0.11:6379 10.90.0.12:6379 10.90.0.13:6379 10.90.0.14:6379 10.90.0.15:6379 10.90.0.16:6379 --cluster-replicas 1 --cluster-yes
+        else
+          echo "redis cluster already formed, waiting for it to be ready"
+        fi
+        # 재기동 직후에는 노드들이 서로의 새 IP 를 배우는 동안 잠시 fail 이므로 ok 가 될 때까지 기다린다.
+        for i in $$(seq 1 60); do
+          timeout 3 redis-cli -h 10.90.0.11 cluster info | grep -q '^cluster_state:ok' && exit 0
+          sleep 1
+        done
+        echo "redis cluster did not become ready" >&2
+        exit 1
+    networks:
+      - redis-cluster
+
+  # 서비스를 도커 밖 IDE 에서 local 프로필로 띄울 때 쓰는 단일 노드 Redis.
+  # config-repo/application-local.yml 이 localhost:6379 를 가리킨다.
+  #   docker compose --profile local up -d redis-local
+  redis-local:
+    image: redis:7-alpine
+    container_name: redis-local
+    profiles:
+      - local
     command: redis-server --port 6379
-    container_name: redis
-    hostname: redis
+    ports:
+      - 6379:6379
     labels:
       - "name=redis"
       - "mode=standalone"
-    ports:
-      - 6379:6379
     networks:
       - modu-chat-network
-      - observability
-  
+
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
@@ -337,14 +489,16 @@ services:
         condition: service_healthy
       discovery-service:
         condition: service_started
-      redis:
-        condition: service_started
+      redis-cluster-init:
+        condition: service_completed_successfully
     volumes:
       - pinpoint-agent:/pinpoint-agent:ro
     networks:
       - modu-chat-network
       - observability
       - pinpoint
+      # Redisson 은 노드가 광고한 고정 IP 로 붙으므로 노드 전용 네트워크에도 참여한다.
+      - redis-cluster
     restart: always
 
   chat-service:
@@ -368,8 +522,6 @@ services:
       mysql-chat:
         condition: service_healthy
       discovery-service:
-        condition: service_started
-      redis:
         condition: service_started
     volumes:
       - pinpoint-agent:/pinpoint-agent:ro
@@ -401,14 +553,16 @@ services:
         condition: service_healthy
       discovery-service:
         condition: service_started
-      redis:
-        condition: service_started
+      redis-cluster-init:
+        condition: service_completed_successfully
     volumes:
       - pinpoint-agent:/pinpoint-agent:ro
     networks:
       - modu-chat-network
       - observability
       - pinpoint
+      # Redisson 은 노드가 광고한 고정 IP 로 붙으므로 노드 전용 네트워크에도 참여한다.
+      - redis-cluster
     restart: always
 
   profile-service:
@@ -461,8 +615,6 @@ services:
         condition: service_healthy
       discovery-service:
         condition: service_started
-      redis:
-        condition: service_started
     volumes:
       - pinpoint-agent:/pinpoint-agent:ro
     networks:
@@ -493,8 +645,6 @@ services:
       minio:
         condition: service_started
       discovery-service:
-        condition: service_started
-      redis:
         condition: service_started
     networks:
       - modu-chat-network
@@ -527,8 +677,6 @@ services:
         condition: service_healthy
       discovery-service:
         condition: service_started
-      redis:
-        condition: service_started
     volumes:
       - pinpoint-agent:/pinpoint-agent:ro
     networks:
@@ -557,8 +705,6 @@ services:
         condition: service_healthy
       discovery-service:
         condition: service_started
-      redis:
-        condition: service_started
     volumes:
       - pinpoint-agent:/pinpoint-agent:ro
     networks:
@@ -570,6 +716,15 @@ services:
 networks:
   modu-chat-network:
     driver: bridge
+  # Redis Cluster 노드 간 전용. 고정 IP 를 쓰기 위해 서브넷을 못박는다.
+  # 도커가 자동 배정하는 172.16.0.0/12, 192.168.0.0/16 과 겹치지 않도록 10.x 를 쓴다.
+  redis-cluster:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.90.0.0/24
+          # 노드 고정 IP(10.90.0.11~16)와 겹치지 않도록 동적 배정은 뒤쪽 절반에서만 한다.
+          ip_range: 10.90.0.128/25
   observability:
     external: true
   pinpoint:
@@ -585,6 +740,12 @@ volumes:
   mongo-01:
   mongo-02:
   mongo-03:
+  redis-node-1:
+  redis-node-2:
+  redis-node-3:
+  redis-node-4:
+  redis-node-5:
+  redis-node-6:
   pinpoint-agent:
     external: true
     name: pinpoint-docker_data-volume

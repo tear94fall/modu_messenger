@@ -8,10 +8,6 @@ spring:
   config:
     import: optional:configserver:${CONFIG_SERVER_URI:http://localhost:8888}
 
-  data:
-    redis:
-      port: 6379
-
   rabbitmq:
     port: 5672
 
