@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 카메라 촬영 결과를 넘겨줄 때 쓰는 경로. filesDir/temp_images/temp_image.jpg 가
+     content://com.example.modumessenger/files/temp_images/temp_image.jpg 로 열린다.
+     (기존 앱은 name 에 "@strings/temp_images" 라는 잘못된 참조 문자열이 들어가 있었다) -->
+<paths>
+    <files-path name="files" path="." />
+</paths>

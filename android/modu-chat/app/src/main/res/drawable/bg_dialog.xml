@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 팝업 배경. 기본 시스템 팝업은 각져 있어 앱의 둥근 버튼·입력칸과 겉돌았다. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="24dp"
+    android:insetTop="24dp"
+    android:insetRight="24dp"
+    android:insetBottom="24dp">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/white" />
+        <corners android:radius="20dp" />
+    </shape>
+</inset>

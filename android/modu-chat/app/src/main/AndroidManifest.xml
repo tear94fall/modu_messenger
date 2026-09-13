@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Android 13(API 33)부터 알림 표시에 런타임 권한이 필요하다. FCM 푸시가 뜨려면 필수. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- API 28 이하에서는 사진을 MediaStore.Images 에 넣으려면 쓰기 권한이 필요하다. 29 부터는 필요 없다. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <!-- 다른 모두 앱(커머스)이 SSO 코드를 요청할 때 필요한 권한. 같은 키로 서명된 앱만 얻는다. -->
+    <permission
+        android:name="com.example.modumessenger.permission.SSO"
+        android:protectionLevel="signature" />
+
+    <application
+        android:name=".ModuApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/modu_ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/modu_ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Modu"
+        android:usesCleartextTraffic="true">
+
+        <!-- 하나뿐인 액티비티. 스플래시 유지 → 세션 판정 → NavHost, 그리고 알림의 roomId 딥링크. -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Modu.Splash"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 다른 모두 앱이 SSO 코드를 요청할 때 뜨는 투명 대화상자. -->
+        <activity
+            android:name=".sso.SsoActivity"
+            android:exported="true"
+            android:permission="com.example.modumessenger.permission.SSO"
+            android:theme="@style/Theme.Modu.Transparent">
+            <intent-filter>
+                <action android:name="com.example.modumessenger.action.REQUEST_SSO_CODE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- FCM 수신. -->
+        <service
+            android:name=".push.ChatMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- 카메라 촬영 결과를 넘길 때 쓴다. authority 는 기존 앱과 같은 applicationId. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.modumessenger"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

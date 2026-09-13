@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 맨 아래로 이동 버튼 배경. 앱 브랜드 색인 보라색 그라데이션의 원형 FAB. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:angle="135"
+        android:startColor="#8B3BFF"
+        android:endColor="#4F46E5"
+        android:type="linear" />
+</shape>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ===== 채팅 탭 / 방 목록(부록 A §6) ===== -->
+    <string name="chat_list_menu_search">검색</string>
+    <string name="chat_list_menu_settings">설정</string>
+    <string name="chat_list_create_room">채팅방 만들기</string>
+    <!-- 마지막 메시지 미리보기: 본문이 image/file/audio 면 이 문구로 바꾼다 -->
+    <string name="chat_preview_image">사진</string>
+    <string name="chat_preview_file">파일</string>
+    <string name="chat_preview_audio">음성</string>
+
+    <!-- ===== 채팅방(부록 A §8) ===== -->
+    <string name="chat_menu_search">검색</string>
+    <string name="chat_menu_drawer">채팅방 정보</string>
+    <string name="chat_input_hint">메시지 입력</string>
+    <string name="chat_send">전송</string>
+    <string name="chat_attach">첨부</string>
+    <string name="chat_unknown_sender">알 수 없음</string>
+    <string name="chat_failed_mark">!</string>
+    <string name="chat_resend">재전송</string>
+    <string name="chat_delete">삭제</string>
+    <string name="chat_cancel">취소</string>
+    <string name="chat_resend_message">메시지를 다시 보낼까요?</string>
+    <string name="chat_delete_message">이 메시지를 삭제할까요?</string>
+    <string name="chat_send_failed">연결 중입니다. 잠시 후 다시 시도해주세요.</string>
+    <string name="chat_jump_to_bottom">아래로 %1$d</string>
+    <string name="chat_load_failed">채팅을 불러오지 못했습니다.</string>
+
+    <!-- ===== 오른쪽 드로어(부록 A §8, §8b) ===== -->
+    <string name="chat_drawer_member_count">%1$d 명</string>
+    <string name="chat_drawer_settings">채팅방 설정</string>
+    <string name="chat_drawer_settings_moving">채팅방 설정으로 이동</string>
+    <string name="chat_drawer_photos">사진, 동영상</string>
+    <string name="chat_drawer_no_photos">채팅방에 전송된 사진이 없습니다.</string>
+    <string name="chat_drawer_members">대화 상대</string>
+    <string name="chat_drawer_exit">나가기</string>
+    <string name="chat_drawer_invite">초대하기</string>
+    <string name="chat_exit_title">채팅방 나가기</string>
+    <string name="chat_exit_message">이 채팅방에서 나갑니다.</string>
+    <string name="chat_exit_done">채팅방에서 나갑니다.</string>
+    <string name="chat_exit_failed">채팅방을 나가지 못했습니다.</string>
+
+    <!-- ===== 첨부 시트(부록 A §9) ===== -->
+    <string name="attach_album">앨범</string>
+    <string name="attach_camera">카메라</string>
+    <string name="attach_file">파일</string>
+    <string name="attach_audio">음성</string>
+    <string name="attach_upload_failed">사진을 올리지 못했습니다.</string>
+
+    <!-- ===== 채팅방 설정(부록 A §10) ===== -->
+    <string name="chat_room_edit_change_image">사진 바꾸기</string>
+    <string name="chat_room_edit_close">닫기</string>
+    <string name="chat_room_edit_menu_gallery">갤러리에서 선택하기</string>
+    <string name="chat_room_edit_menu_default">기본 이미지로 변경하기</string>
+    <string name="chat_room_edit_name_hint">채팅방 이름</string>
+    <string name="chat_room_edit_name_help">이름을 비워 두면 참여자 이름으로 표시됩니다.</string>
+    <string name="chat_room_edit_save">저장</string>
+    <string name="chat_room_edit_image_picked">사진을 바꿨습니다. 저장을 눌러 주세요.</string>
+    <string name="chat_room_edit_image_default">기본 이미지로 바꿨습니다. 저장을 눌러 주세요.</string>
+    <string name="chat_room_edit_not_loaded">채팅방 정보를 아직 불러오지 못했습니다.</string>
+    <string name="chat_room_edit_no_change">변경된 내용이 없습니다.</string>
+    <string name="chat_room_edit_load_failed">채팅방 정보를 불러오지 못했습니다.</string>
+    <string name="chat_room_edit_file_failed">사진을 가져오지 못했습니다.</string>
+    <string name="chat_room_edit_upload_failed">사진을 올리지 못했습니다.</string>
+    <string name="chat_room_edit_save_success">채팅방 정보를 저장했습니다.</string>
+    <string name="chat_room_edit_save_failed">저장하지 못했습니다.</string>
+
+    <!-- ===== 친구 초대(부록 A §11) ===== -->
+    <string name="invite_title">친구 초대 하기</string>
+    <string name="invite_button">초대하기</string>
+    <string name="invite_empty">초대할 친구가 없습니다.</string>
+    <string name="invite_started">친구를 채팅방에 초대합니다.</string>
+    <!-- 원문 오타 "실패하엿습니다" 는 스펙 §0 에 따라 고쳐 쓴다 -->
+    <string name="invite_member_failed">%1$s님을 채팅방 초대에 실패했습니다.</string>
+    <string name="invite_failed">친구를 초대하지 못했습니다.</string>
+
+    <!-- ===== 채팅방 만들기(부록 A §12) ===== -->
+    <string name="create_room_title">채팅방 만들기</string>
+    <string name="create_room_button">채팅 하기</string>
+    <string name="create_room_empty">추가할 친구가 없습니다.</string>
+    <string name="create_room_started">채팅방을 생성합니다.</string>
+    <string name="create_room_error">채팅방을 만들지 못했습니다.</string>
+
+    <!-- 초대·방 만들기 목록 공통 -->
+    <string name="chat_friends_load_failed">연결이 원활하지 않습니다.</string>
+
+    <!-- ===== 사진 보기(부록 A §17) ===== -->
+    <string name="chat_images_close">X</string>
+    <string name="chat_images_load_failed">사진을 불러오지 못했습니다.</string>
+</resources>

@@ -1,0 +1,12 @@
+*.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild
+.cxx
+.kotlin/
+# 파이어베이스 설정. 기존 앱과 같은 파일(applicationId 동일)을 복사해 쓴다.
+app/google-services.json

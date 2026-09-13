@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 앱 기본 테마. Compose 가 색을 그리므로 여기서는 시스템 바 색만 맞춘다. -->
+    <style name="Theme.Modu" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand_violet</item>
+        <item name="colorOnPrimary">@color/on_brand_violet</item>
+        <item name="colorSecondary">@color/brand_blue</item>
+        <item name="colorOnSecondary">@color/on_brand_blue</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/brand_violet_dark</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <!-- 런처 테마. core-splashscreen 이 스플래시를 그리고, installSplashScreen() 이후
+         postSplashScreenTheme 으로 갈아탄다. -->
+    <style name="Theme.Modu.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <!-- 기존 앱의 background_splash 와 같은 그림: 흰 바탕에 번개 로고. -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/modu_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Modu</item>
+    </style>
+
+    <!-- SsoActivity: 화면 없이 대화상자만 띄운다. -->
+    <style name="Theme.Modu.Transparent" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>

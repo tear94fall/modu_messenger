@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 사진 위에 놓는 원형 아이콘 버튼 배경. 반투명 검정이라 어떤 사진 위에서도 흰 아이콘이 읽힌다. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#66000000" />
+</shape>

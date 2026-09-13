@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 친구 탭(부록 A §5) -->
+    <string name="friends_count">친구 %1$d 명</string>
+    <string name="friends_name_placeholder">사용자 이름</string>
+    <string name="friends_status_placeholder">프로필 상태 메세지</string>
+    <string name="friends_menu_search">검색</string>
+    <string name="friends_menu_add">친구 추가</string>
+    <string name="friends_menu_settings">친구 설정</string>
+    <string name="friends_load_failed">연결이 원활하지 않습니다.</string>
+
+    <!-- 친구 추가(부록 A §18) -->
+    <string name="search_friends_title">친구 추가</string>
+    <string name="friends_search_hint">검색할 친구의 이메일을 입력하시오</string>
+    <string name="friends_search_empty">입력된 값이 없습니다.</string>
+    <string name="friends_search_done">%1$s 을 검색하였습니다.</string>
+    <string name="add_friend_button">친구 추가</string>
+    <string name="add_friend_success">%1$s님과 친구가 되었습니다.</string>
+    <!-- 원문 오타 "친구 추가에 실패헀습니다" 는 스펙 §0 에 따라 고쳐 쓴다 -->
+    <string name="add_friend_failed">친구 추가에 실패했습니다</string>
+
+    <!-- 친구 찾기(부록 A §19) -->
+    <string name="find_friends_title">친구 찾기</string>
+    <string name="friends_find_done">%1$s 을 검색 했습니다.</string>
+    <string name="find_friends_chat_button">채팅 하기</string>
+    <!-- 기존 앱에는 없던 문구. 방 생성은 스텁이었다. -->
+    <string name="create_room_failed">채팅방을 만들지 못했습니다.</string>
+
+    <!-- 친구 설정(부록 A §20) -->
+    <string name="set_friends_title">친구 설정</string>
+    <string name="set_friends_favorite">즐겨찾기</string>
+    <string name="set_friends_hidden">숨김친구</string>
+    <string name="set_friends_blocked">차단친구</string>
+</resources>

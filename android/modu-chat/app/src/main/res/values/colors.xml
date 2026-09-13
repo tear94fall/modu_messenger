@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 브랜드 컬러: 앱 로고(보라색 번개, #8C37F8 → #6C8AFF 그라데이션)에서 가져온 팔레트.
+         기준색은 로고 좌측 위 구간에서 뽑은 #786BFC 다. -->
+    <color name="brand_violet">#786BFC</color>
+    <color name="brand_violet_dark">#5B4FD6</color>
+    <color name="brand_blue">#6C8AFF</color>
+    <color name="brand_blue_dark">#4D63B7</color>
+    <!-- 흰 글자는 brand_violet 위에서 대비 3.96:1 이다. 큰 굵은 글자(앱바 제목) 기준은 넘지만
+         본문 크기 기준(4.5:1)에는 못 미친다. 밝기를 택한 결과다. brand_blue 는 더 밝아 검정 글자를 쓴다. -->
+    <color name="on_brand_violet">@color/white</color>
+    <!-- 말풍선은 본문을 오래 읽는 자리라 배경을 연하게 깔고 글자를 어둡게 둔다. 대비 9.33:1 -->
+    <color name="chat_bubble">#C9C2FE</color>
+    <color name="on_chat_bubble">#1F2430</color>
+    <color name="on_brand_blue">@color/black</color>
+
+    <!-- 프로필 화면 바탕. 순백이면 프로필 사진의 흰 테두리가 아래 절반에서 사라져
+         링이 위쪽에만 있는 것처럼 보인다. 아주 옅게 깔아 링이 양쪽에서 다 읽히게 한다. -->
+    <color name="profile_surface">#F5F4FA</color>
+    <!-- 채팅 입력창. 흰 바 위에서 입력칸이 눌린 자리로 보이도록 아주 옅게 깐다. -->
+    <color name="chat_input_fill">#F2F0FB</color>
+    <color name="chat_input_stroke">#E4E0F5</color>
+    <color name="divider">#E6E4EC</color>
+
+    <!-- 구글 로그인 버튼(브랜드 가이드 라이트 테마) -->
+    <color name="google_button_stroke">#747775</color>
+    <color name="google_button_text">#1F1F1F</color>
+    <color name="google_button_ripple">#1F1F1F</color>
+
+    <color name="black">#FF000000</color>
+    <color name="grey">#808080</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="blue">#2196F3</color>
+    <color name="red">#FF3F32</color>
+    <color name="badge_red">#D32F2F</color>
+    <color name="unread_marker">#F0A500</color>
+</resources>

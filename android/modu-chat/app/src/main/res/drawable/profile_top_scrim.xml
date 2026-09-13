@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 배경사진 위에 얹는 아이콘 버튼이 밝은 사진에서도 보이도록 위쪽만 어둡게 깐다. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:endColor="#00000000"
+        android:startColor="#59000000"
+        android:type="linear" />
+</shape>

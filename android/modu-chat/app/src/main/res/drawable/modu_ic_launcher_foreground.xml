@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  백오피스와 같은 번개 마크. 원본은 48x46 좌표계라 0.95 배로 맞춰
+  런처 아이콘답게 사방에 여백을 둔다. 도형의 실제 경계가 뷰박스와
+  달라 잰 경계를 기준으로 삼되, 굵은 윗부분에 견줘 아래 꼬리가 가늘어
+  경계 중심에 두면 위로 붙어 보인다. 경계 중심과 면적 중심의 중간에 놓는다.
+  원본의 흐림 효과는 벡터 드로어블이 지원하지 않아 보라에서 파랑으로
+  이어지는 그라디언트로 대신한다.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:translateX="31.016"
+        android:translateY="34.957"
+        android:scaleX="0.95"
+        android:scaleY="0.95">
+        <path android:pathData="M25.946,44.938c-0.664,0.845 -2.021,0.375 -2.021,-0.698V33.937a2.26,2.26 0 0 0 -2.262,-2.262H10.287c-0.92,0 -1.456,-1.04 -0.92,-1.788l7.48,-10.471c1.07,-1.497 0,-3.578 -1.842,-3.578H1.237c-0.92,0 -1.456,-1.04 -0.92,-1.788L10.013,0.474c0.214,-0.297 0.556,-0.474 0.92,-0.474h28.894c0.92,0 1.456,1.04 0.92,1.788l-7.48,10.471c-1.07,1.498 0,3.579 1.842,3.579h11.377c0.943,0 1.473,1.088 0.89,1.83L25.947,44.94z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="4"
+                    android:startY="42"
+                    android:endX="44"
+                    android:endY="4">
+                    <item android:offset="0" android:color="#FF8C37F8" />
+                    <item android:offset="1" android:color="#FF6C8AFF" />
+                </gradient>
+            </aapt:attr>
+        </path>
+    </group>
+</vector>
